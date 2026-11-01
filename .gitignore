@@ -1,0 +1,16 @@
+# Private database
+early_access.db
+
+# Environment variables and secrets
+.env
+
+# Python generated files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+# Editor settings
+.vscode/

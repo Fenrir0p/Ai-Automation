@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NEXORA AI | Admin</title>
+
+    <link rel="stylesheet" href="/static/admin.css">
+</head>
+
+<body>
+
+    <main class="admin-container">
+
+        <header class="admin-header">
+            <div>
+                <p class="eyebrow">NEXORA AI</p>
+                <h1>Registration Management</h1>
+                <p>Manage your early-access registrations.</p>
+            </div>
+
+           <div>
+    <a href="/admin/export.csv" class="export-button">
+        Export CSV
+    </a>
+
+    <button type="button" id="view-history-button">
+        View Activity History
+    </button>
+</div>
+        </header>
+
+        <section class="registration-section">
+
+            <div class="section-header">
+                <h2>Early Access Registrations</h2>
+                <span id="registration-count">Loading...</span>
+            </div>
+
+            <form id="search-form">
+                <input
+                    type="search"
+                    id="search-input"
+                    placeholder="Search name or email..."
+                >
+
+                <select id="status-filter">
+                      <option value="All">All Statuses</option>
+                     <option value="Pending">Pending</option>
+                      <option value="Approved">Approved</option>
+                     <option value="Rejected">Rejected</option>
+                </select>
+
+                <button type="submit">Search</button>
+                <button type="button" id="clear-search">Clear</button>
+            </form>
+
+            <p id="status-message" role="status"></p>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Account Type</th>
+        <th>Registration Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+                    <tbody id="registration-list">
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        
+        </section>
+
+        <!-- REGISTRATION ACTIVITY HISTORY -->
+        <section id="history-section" hidden>
+
+            <h2>Registration Activity History</h2>
+
+            <button type="button" id="hide-history-button">
+                Hide History
+            </button>
+
+            <p id="history-message" role="status"></p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Registration ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Previous Status</th>
+                            <th>New Status</th>
+                            <th>Date Changed</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="history-list"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    </main>
+
+    <script src="/static/admin.js"></script>
+
+</body>
+</html>

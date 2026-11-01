@@ -1,5 +1,5 @@
 
-from message_processor import classify_message
+from message_processor import classify_message, detect_device
 from actions import (
     handle_request,
     start_pricing_conversation,
@@ -11,7 +11,6 @@ conversation = None
 
 while True:
 
-    # Start a new customer request.
     if conversation is None:
         message = input("\nCustomer: ").lower().strip()
 
@@ -25,20 +24,14 @@ while True:
         print("You entered:", message)
 
         category = classify_message(message)
-
         print("Category:", category)
 
-        # Start the pricing conversation.
         if category == "pricing":
             conversation, response = start_pricing_conversation(message)
-
             print("Assistant:", response)
-
-        # Handle other request categories.
         else:
             handle_request(category, message)
 
-    # Continue an existing pricing conversation.
     else:
         answer = input("\nCustomer: ").lower().strip()
 
@@ -49,8 +42,33 @@ while True:
         if not answer:
             continue
 
-        conversation, response = continue_pricing_conversation(
-            answer, conversation
-        )
+        # Check whether the customer supplied the requested device.
+        if (
+            conversation["state"] == "waiting_for_device"
+            and detect_device(answer) != "unknown"
+        ):
+            conversation, response = continue_pricing_conversation(
+                answer, conversation
+            )
+
+        else:
+            category = classify_message(answer)
+
+            # Customer wants to ask about a different pricing service.
+            if category == "pricing":
+                conversation, response = start_pricing_conversation(answer)
+
+            # Customer wants to switch to another request.
+            elif category != "general inquiry":
+                conversation = None
+                print("Category:", category)
+                handle_request(category, answer)
+                continue
+
+            # The answer may be an invalid device or service.
+            else:
+                conversation, response = continue_pricing_conversation(
+                    answer, conversation
+                )
 
         print("Assistant:", response)
